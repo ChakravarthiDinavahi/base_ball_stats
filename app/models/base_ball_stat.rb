@@ -1,0 +1,2 @@
+class BaseBallStat < ApplicationRecord
+end
