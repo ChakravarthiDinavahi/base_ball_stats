@@ -1,35 +1,97 @@
 
 <title>Base Ball Stats</title>
+<div id="content" class='content_mid' ng-app="ManageIP" ng-controller="ManageIpCtrl">
 
-<table id="example" class="table table-striped table-bordered" style="width:100%">
-  <thead>
-    <tr>
-      <th scope="col">Playe Name</th>
-      <th scope="col">AVG</th>
-      <th scope="col">HR</th>
-      <th scope="col">RBI</th>
-      <th scope="col">RUNS</th>
-      <th scope="col">SBS</th>
-      <th scope="col">OPS</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @base_ball_stats.each_with_index do |stat,i|%>
+  <table id="example" class="table table-striped table-bordered" style="width:100%">
+    <thead>
       <tr>
-        <th scope="row"><%= i+1 %></th>
-        <td><%= stat.avg %></td>
-        <td><%= stat.hr %></td>
-        <td><%= stat.rbi %></td>
-        <td><%= stat.runs %></td>
-        <td><%= stat.sbs %></td>
-        <td><%= stat.ops %></td>
+        <th>Playe Name</th>
+        <th>
+          <a href="" style="color:#ffffff" ng-click="orderByField='avg';reverseSort = !reverseSort"> AVG
+              <span ng-show="orderByField=='avg'">
+                  <span ng-show="!reverseSort" class="glyphicon glyphicon-chevron-up"></span>
+                  <span ng-show="reverseSort" class="glyphicon glyphicon-chevron-down"></span>
+              </span>
+          </a>
+      </th>
+      <th>
+          <a href="" style="color:#ffffff" ng-click="orderByField='hr';reverseSort = !reverseSort"> HR
+              <span ng-show="orderByField=='hr'">
+                  <span ng-show="!reverseSort" class="glyphicon glyphicon-chevron-up"></span>
+                  <span ng-show="reverseSort" class="glyphicon glyphicon-chevron-down"></span>
+              </span>
+          </a>
+      </th>
+      <th>
+        <a href="" style="color:#ffffff" ng-click="orderByField='city';reverseSort = !reverseSort"> RBI
+            <span ng-show="orderByField=='rbi'">
+                <span ng-show="!reverseSort" class="glyphicon glyphicon-chevron-up"></span>
+                <span ng-show="reverseSort" class="glyphicon glyphicon-chevron-down"></span>
+            </span>
+        </a>
+    </th>
+    <th>
+      <a href="" style="color:#ffffff" ng-click="orderByField='city';reverseSort = !reverseSort"> RUNS
+          <span ng-show="orderByField=='runs'">
+              <span ng-show="!reverseSort" class="glyphicon glyphicon-chevron-up"></span>
+              <span ng-show="reverseSort" class="glyphicon glyphicon-chevron-down"></span>
+          </span>
+      </a>
+    </th>
+        <!-- <th>AVG</th>
+        <th>HR</th>
+        <th>RBI</th>
+        <th>RUNS</th>
+        <th>SBS</th>
+        <th>OPS</th> -->
       </tr>
-    <% end %>
-  </tbody>
-</table>
-<%== pagy_bootstrap_nav(@pagy) %>
+    </thead>
+    <tbody>
+      <tr ng-repeat="players in logs |orderBy:orderByField:reverseSort as filtered_lots">
+        <td>{{$player.player_name}}  </td>
+        <td>{{player.avg}}</td>
+        <td>{{player.hr}}</td>
+        <td>{{player.rbi}}</td>
+        <td>{{player.runs}}</td>
+    </tr>
+    </tbody>
+  </table>
+ </div> 
+<%#== pagy_bootstrap_nav(@pagy) %>
 <script>
-  $(document).ready(function() {
-    $('#example').DataTable();
-} );
+//   $(document).ready(function() {
+//     $('#example').DataTable();
+// } );
+
+var app = angular.module("ManageIP",[]);
+
+app.controller("ManageIpCtrl",function($scope,$http, $filter){
+  $scope.filter = {}
+  $scope.logs = [];
+  $scope.filtered_lots = [];
+  $scope.reverseSort = true;
+  $scope.runBtnEnbnDsbl = true;
+  $scope.selectBtnEnbnDsbl = true;
+
+  $scope.fetch_data = function(){
+      $("#ajax_loader").show();
+      from_date = $(".logger_from_date").val()
+      to_date = $(".logger_to_date").val()
+      if( $scope.filter.city != "" || $scope.filter.location != "" || (from_date.length > 0)){
+        $http({"method":"GET", "url":"/manage_visit_ips/get_logs?city="+$scope.filter.city+"&&location="+$scope.filter.location+"&&from_date="+from_date+"&&to_date="+to_date}).then(
+          function(logs) {
+            $scope.isCollapsed = true;
+            $scope.logs = logs.data.logs
+            $scope.selectBtnEnbnDsbl = false;
+            $scope.cbChecked();
+            $("#ajax_loader").hide();
+          }
+        );
+      }
+      else{
+        alert("Please Select Atlaest One Filter");
+        $("#ajax_loader").hide();
+      }
+    }
+  });
 </script>
