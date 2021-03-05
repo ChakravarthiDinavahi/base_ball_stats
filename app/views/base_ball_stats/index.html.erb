@@ -1,35 +1,52 @@
 
 <title>Base Ball Stats</title>
-
-<table id="example" class="table table-striped table-bordered" style="width:100%">
-  <thead>
-    <tr>
-      <th scope="col">Playe Name</th>
-      <th scope="col">AVG</th>
-      <th scope="col">HR</th>
-      <th scope="col">RBI</th>
-      <th scope="col">RUNS</th>
-      <th scope="col">SBS</th>
-      <th scope="col">OPS</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @base_ball_stats.each_with_index do |stat,i|%>
+<div class="infinite-table">
+  <table id="base_ball_stats_tab" class="table table-striped table-bordered" style="width:100%">
+    <thead>
       <tr>
-        <th scope="row"><%= i+1 %></th>
-        <td><%= stat.avg %></td>
-        <td><%= stat.hr %></td>
-        <td><%= stat.rbi %></td>
-        <td><%= stat.runs %></td>
-        <td><%= stat.sbs %></td>
-        <td><%= stat.ops %></td>
+        <th><button class="sortklass" id="player_name"> Name </button><i class="fa fa-fw fa-sort"></i> </th>
+        <th><button class="sortklass" id="avg"> AVG </button><i class="fa fa-fw fa-sort"></i> </th>
+        <th><button class="sortklass" id="hr"> HR</button><i class="fa fa-fw fa-sort"></i> </th>
+        <th><button class="sortklass" id="rbi"> RBI</button><i class="fa fa-fw fa-sort"></i> </th>
+        <th><button class="sortklass" id="runs"> RUNS </button> <i class="fa fa-fw fa-sort"></i> </th>
+        <th><button class="sortklass" id="sbs">SBS</button><i class="fa fa-fw fa-sort"></i> </th>
+        <th><button class="sortklass" id="ops">OPS</button><i class="fa fa-fw fa-sort"></i> </th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-<%== pagy_bootstrap_nav(@pagy) %>
+    </thead>
+    <%= render :partial => 'base_ball_stats', :object => @base_ball_stats %>
+  </table>
+  <%= link_to_next_page(@base_ball_stats, 'Next Page', :remote => true) %>
+</div>
+<%#== pagy_bootstrap_nav(@pagy) %>
 <script>
-  $(document).ready(function() {
-    $('#example').DataTable();
-} );
+  $(".sortklass").click(function(){
+    console.log("id")
+    order_by = $(this).attr('id')
+    $.ajax({
+      type: "GET",
+      url: '/base_ball_stats/',
+      data: {
+        order_by: order_by,
+      },
+      success: function(data){
+      debugger
+      },
+      complete: function(){
+        $('table').tablesorter({
+            widgets        : ['zebra', 'columns'],
+            usNumberFormat : false,
+            sortReset      : true,
+            sortRestart    : true,
+            cssInfoBlock : "avoid-sort"
+        });
+      }
+    });
+console.log($(this).attr('id'))
+  })
+  // $(document).ready(function() {
+  //   $('#example').DataTable( {
+  //       responsive: true,
+  //       "pageLength": 20
+  //     });
+  //   } );
 </script>

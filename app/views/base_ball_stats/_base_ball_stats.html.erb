@@ -1,0 +1,14 @@
+
+<tbody>
+  <% @base_ball_stats.each_with_index do |stat,i|%>
+    <tr>
+      <th><%= stat.player_name %></th>
+      <td><%= stat.avg %></td>
+      <td><%= stat.hr %></td>
+      <td><%= stat.rbi %></td>
+      <td><%= stat.runs %></td>
+      <td><%= stat.sbs %></td>
+      <td><%= stat.ops %></td>
+    </tr>
+  <% end %>
+</tbody>
