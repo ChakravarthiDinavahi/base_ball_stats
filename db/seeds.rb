@@ -24,6 +24,7 @@ ActiveRecord::Base.transaction do
         runs = base_ball_stat.runs.to_f + player.at('runs')&.content.to_f
 
         base_ball_stat.update(avg: avg, hr: hr, runs: runs, rbi: rbi)
+        # sleep(1)
       rescue StandardError => e
         puts "Insertion of record#{player.at('surname')&.content} #{player.at('given_name')&.content} failed due to #{e}"
         next
