@@ -1,8 +1,5 @@
 
-<center>
-
-  <h2>Base Ball Statistics</h2>
-</center>
+<h2 style="text-align: center;">Base Ball Statistics</h2>
 <div class="container">
   <table id="example" class="table table-striped table-bordered" style="width:100%">
     <thead>
@@ -31,7 +28,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @base_ball_stats.each_with_index do |stat,i|%>
+      <% @base_ball_stats.each do |stat|%>
         <tr>
           <th><%= stat.player_name %></th>
           <td><%= stat.avg.round(2) %></td>

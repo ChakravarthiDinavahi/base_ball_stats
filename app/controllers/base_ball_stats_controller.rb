@@ -3,7 +3,7 @@ class BaseBallStatsController < ApplicationController
   before_action :set_variables, only: :index
 
   def index
-    @pagy, @base_ball_stats = pagy(BaseBallStat.all.order("#{@column_name} #{@order_by}"))
+    @pagy, @base_ball_stats = pagy(BaseBallStat.all.order("#{@column_name} #{@order_by}"), items: 25)
   end
 
   private
