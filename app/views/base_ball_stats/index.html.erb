@@ -1,57 +1,64 @@
 
-<title>Base Ball Stats</title>
+<center>
 
-<table id="example" class="table table-striped table-bordered" style="width:100%">
-  <thead>
-    <tr>
-      <th scope="col">Playe Name
-      </th>
-      <th>AVG
-        <span data-order="ASC" data-name="AVG" class="glyphicon glyphicon-chevron-up"></span>
-        <span data-order="DESC" data-name="AVG" class="glyphicon glyphicon-chevron-down"></span>
-      </th>
-      <th>HR
-        <span data-order="ASC" data-name="hr" class="glyphicon glyphicon-chevron-up"></span>
-        <span data-order="DESC" data-name="hr" class="glyphicon glyphicon-chevron-down"></span>
-      </th>
-      <th>RBI
-        <span data-order="ASC" data-name="rbi" class="glyphicon glyphicon-chevron-up"></span>
-        <span data-order="DESC" data-name="rbi" class="glyphicon glyphicon-chevron-down"></span>
-      </th>
-      <th>RUNs
-        <span data-order="ASC" data-name="runs" class="glyphicon glyphicon-chevron-up"></span>
-        <span data-order="DESC" data-name="runs" class="glyphicon glyphicon-chevron-down"></span>
-      </th>
-      <th>SBS
-        <span data-order="ASC" data-name="sbs" class="glyphicon glyphicon-chevron-up"></span>
-        <span data-order="DESC" data-name="sbs" class="glyphicon glyphicon-chevron-down"></span>
-
-      </th>
-      <th>OPS
-        <span data-order="ASC" data-name="ops" class="glyphicon glyphicon-chevron-up"></span>
-        <span data-order="DESC" data-name="ops" class="glyphicon glyphicon-chevron-down"></span>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @base_ball_stats.each_with_index do |stat,i|%>
+  <h2>Base Ball Statistics</h2>
+</center>
+<div class="container">
+  <table id="example" class="table table-striped table-bordered" style="width:100%">
+    <thead>
       <tr>
-        <th><%= stat.player_name %></th>
-        <td><%= stat.avg %></td>
-        <td><%= stat.hr %></td>
-        <td><%= stat.rbi %></td>
-        <td><%= stat.runs %></td>
-        <td><%= stat.sbs %></td>
-        <td><%= stat.ops %></td>
+        <th>Playe Name
+          <span data-order="ASC" data-name="player_name" class="glyphicon glyphicon-chevron-up"></span>
+          <span data-order="DESC" data-name="player_name" class="glyphicon glyphicon-chevron-down"></span>
+        </th>
+        <th>AVG
+          <span data-order="ASC" data-name="AVG" class="glyphicon glyphicon-chevron-up"></span>
+          <span data-order="DESC" data-name="AVG" class="glyphicon glyphicon-chevron-down"></span>
+        </th>
+        <th>HR
+          <span data-order="ASC" data-name="hr" class="glyphicon glyphicon-chevron-up"></span>
+          <span data-order="DESC" data-name="hr" class="glyphicon glyphicon-chevron-down"></span>
+        </th>
+        <th>RBI
+          <span data-order="ASC" data-name="rbi" class="glyphicon glyphicon-chevron-up"></span>
+          <span data-order="DESC" data-name="rbi" class="glyphicon glyphicon-chevron-down"></span>
+        </th>
+        <th>RUNS
+          <span data-order="ASC" data-name="runs" class="glyphicon glyphicon-chevron-up"></span>
+          <span data-order="DESC" data-name="runs" class="glyphicon glyphicon-chevron-down"></span>
+        </th>
+        <th>SB
+          <span data-order="ASC" data-name="sbs" class="glyphicon glyphicon-chevron-up"></span>
+          <span data-order="DESC" data-name="sbs" class="glyphicon glyphicon-chevron-down"></span>
+        </th>
+        <th>OPS
+          <span data-order="ASC" data-name="ops" class="glyphicon glyphicon-chevron-up"></span>
+          <span data-order="DESC" data-name="ops" class="glyphicon glyphicon-chevron-down"></span>
+        </th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-<%== pagy_bootstrap_nav(@pagy) %>
+    </thead>
+    <tbody>
+      <% @base_ball_stats.each_with_index do |stat,i|%>
+        <tr>
+          <th><%= stat.player_name %></th>
+          <td><%= stat.avg.round(2) %></td>
+          <td><%= stat.hr %></td>
+          <td><%= stat.rbi %></td>
+          <td><%= stat.runs %></td>
+          <td><%= stat.sbs %></td>
+          <td><%= stat.ops %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%== pagy_bootstrap_nav(@pagy) %>
+
+</div>
 <script>
-$('.glyphicon').click(function(){
-  column_name = $(this).attr("data-name")
-  order_by = $(this).attr("data-order")
-  document.location.href = "?column_name="+column_name+"&order_by="+order_by
-})
+  $('.glyphicon').click(function(){
+    //to get sorted data
+    column_name = $(this).attr("data-name")
+    order_by = $(this).attr("data-order")
+    document.location.href = "?column_name="+column_name+"&order_by="+order_by
+  })
 </script>

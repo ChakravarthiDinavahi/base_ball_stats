@@ -14,12 +14,12 @@ ActiveRecord::Schema.define(version: 2021_03_04_034615) do
 
   create_table "base_ball_stats", force: :cascade do |t|
     t.string "player_name"
-    t.float "avg", limit: 53
-    t.float "hr", limit: 53
-    t.float "runs", limit: 53
-    t.float "rbi", limit: 53
-    t.float "sbs", limit: 53
-    t.float "ops", limit: 53
+    t.float "avg", default: 0.0
+    t.integer "hr", default: 0
+    t.integer "runs", default: 0
+    t.integer "rbi", default: 0
+    t.integer "sbs", default: 0
+    t.float "ops", default: 0.0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
